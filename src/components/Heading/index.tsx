@@ -7,7 +7,7 @@ type HeadingProps = {
 const Heading : React.FC<HeadingProps> = ({children}) => { 
     return (
         <div>            
-            <h2 className='flex justify-center items-center gap-4 mt-5 font-bold'>
+            <h2 className='flex justify-center items-center gap-4 mt-15 font-bold'>
                 {children}
             </h2>
         </div>
