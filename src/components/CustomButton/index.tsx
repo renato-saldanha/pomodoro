@@ -1,18 +1,20 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
+
 type CustomButtonProps = {
-    Icone :  React.ReactNode
+    icone :  React.ReactNode;
+    className?: string;
 };
 
-const CustomButton : React.FC<ButtonHTMLAttributes<HTMLButtonElement> & CustomButtonProps> = ({...props}) => {
+const CustomButton : React.FC<ButtonHTMLAttributes<HTMLButtonElement> & CustomButtonProps> = ({icone, className = '', ...props}) => {
     
     return (
         <button 
-            className='text-primario border rounded-md p-1 cursor-pointer hover:text-primario-escuro 
-                        transition transform hover:scale-103 '
+            className={`text-primario border rounded-md p-1 cursor-pointer hover:text-primario-escuro 
+                        transition transform hover:scale-103 ${className}`}
             {...props}
         >
-        {props.Icone}    
+            {icone}    
         </button>
     )
 }

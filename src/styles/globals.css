@@ -18,9 +18,13 @@
   --link-cor: #adbbbb;
   --link-hover: #0e5394;
 
+  --play: #0e8321;
+  --play-hover: #0fa728;
+
   --sucesso: #22c55e;
   --aviso: #eab308;
   --erro: #991b1b;
+  --erro-hover: #a82f2f;
   --info: #9d5adb;
 
   --texto-over-primario: #0a0f1a;
@@ -56,9 +60,13 @@
   --color-link-cor: var(--link-cor);
   --color-link-hover: var(--link-hover);
 
+  --color-play: var(--play);
+  --color-play-hover: var(--play-hover);     
+
   --color-sucesso: var(--sucesso);
   --color-aviso: var(--aviso);
   --color-erro: var(--erro);
+  --color-erro-hover: var(--erro-hover);  
   --color-info: var(--info);
 
   --color-texto-over-primario: var(--texto-over-primario);
