@@ -25,6 +25,9 @@ const CustomInput  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement
                             {ciclo.descanso && (
                                 <div className={`text-xl ${ciclo.numeroCiclo == 4 ? 'text-play' : 'text-aviso'}`}>●</div>
                             )}
+                            {!ciclo.descanso && !ciclo.trabalho && (
+                                <div className={`text-xl text-transparent`}>●</div>
+                            )}
                         </div>
                     ))
                 )}
