@@ -3,7 +3,7 @@ export type TaskModel = {
     nome: string;
     duracao: number;
     dataInicio: number;
-    dataFim: number;
-    dataInterrupcao: number;
+    dataFim: number | null;
+    dataInterrupcao: number | null;
     tipo: 'trabalho' | 'descansoCurto' | 'descansoLongo';
 }
