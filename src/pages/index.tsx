@@ -6,7 +6,7 @@ import Contador from "@/components/Contador";
 import Task from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import Ciclos from "@/components/Ciclos";
-import { useTaskContext } from "@/contexts/TaskContext";
+import { useTaskContext } from "@/contexts/TaskContext/hooks";
 
 
 type HomeProps = {
@@ -17,7 +17,11 @@ const Home: React.FC<HomeProps> = () => {
     const taskContext = useTaskContext();
 
     const pararExecucao = () => {
-        taskContext.pararExecucao;
+        taskContext.setState(prev =>({...prev, executando : false}))
+    }
+
+    const executarPlayer = () => {
+        taskContext.setState(prev =>({...prev, executando : true}))
     }
 
     const handleCicloTrabalho = (numeroCiclo: number) => {
@@ -54,7 +58,7 @@ const Home: React.FC<HomeProps> = () => {
     };
 
     const iniciarExecucao = () => {
-        taskContext.executarPlayer;
+        executarPlayer();
 
         if (taskContext.state.ordemAtual === 1) {
             handleCicloTrabalho(taskContext.state.cicloAtual);

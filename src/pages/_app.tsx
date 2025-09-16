@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { TaskContextProvider } from "@/contexts/TaskContext";
+import { TaskContextProvider } from "@/contexts/TaskContext/TaskContextProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
