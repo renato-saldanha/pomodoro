@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 
 
 type CustomButtonProps = {
-    icone :  React.ReactNode;
+    icone:  React.ReactNode;
     className?: string;
 };
 

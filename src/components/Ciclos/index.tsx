@@ -1,15 +1,9 @@
 import { useTaskContext } from '@/contexts/TaskContext/hooks';
+import { CicloModel } from '@/models/CicloModel';
 import React, { InputHTMLAttributes, useState } from 'react';
 
-
-export type Ciclo = {
-    numeroCiclo: number;
-    trabalho: boolean;
-    descanso: boolean;    
-}
-
 type CiclosProps = {    
-    ciclos: Ciclo[];
+    ciclos: CicloModel[];
 };
 
 const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({ciclos, ...props}) => {

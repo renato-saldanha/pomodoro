@@ -1,4 +1,4 @@
-import { Ciclo } from "@/components/Ciclos";
+import { CicloModel } from "./CicloModel";
 import { TaskModel } from "./TaskModel";
 
 export type TaskStateModel = {
@@ -8,7 +8,7 @@ export type TaskStateModel = {
     taskAtivo: TaskModel | null;
     cicloAtual: number;
     ordemAtual: number;
-    ciclos: Ciclo[];
+    ciclos: CicloModel[];
     executando: boolean;
     config: {
         tempoTrabalho: number;
