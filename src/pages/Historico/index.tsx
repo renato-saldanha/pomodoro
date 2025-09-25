@@ -1,16 +1,10 @@
 import React from "react";
 
-import { Play } from "lucide-react";
-
-import Contador from "@/components/Contador";
-import Task from "@/components/CustomInput";
-import CustomButton from "@/components/CustomButton";
-
 type HistoricoProps = {
-
+  texto: string | 'Nome'
 };
 
-const Historico : React.FC<HistoricoProps> = () => {
+const Historico : React.FC<HistoricoProps> = ({texto}) => {
     return (
          <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
@@ -20,7 +14,7 @@ const Historico : React.FC<HistoricoProps> = () => {
                 ID
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                Nome
+                {texto}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                 Email

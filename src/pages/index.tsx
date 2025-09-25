@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useRef } from "react";
+import { ToastContainer } from 'react-toastify';
 
 
 import { Play, StopCircle } from "lucide-react";
@@ -15,15 +15,13 @@ import { getProximoTipoCiclo } from "@/models/CicloModel";
 import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto.";
 
 type HomeProps = {
-
+    texto: 'oi';
 };
-
-
 
 const Home: React.FC<HomeProps> = () => {
     const {state, setState} = useTaskContext();
     const nomeTaskRef = useRef<HTMLInputElement>(null);
-    const buttonPlayStopRef = useRef<HTMLButtonElement>(null);
+    // const buttonPlayStopRef = useRef<HTMLButtonElement>(null);
 
     const pararExecucao = () => {
         setState(prev =>({
@@ -42,7 +40,10 @@ const Home: React.FC<HomeProps> = () => {
     };
     
     const executandoPlayer = () => {
-        return state.executando;    1
+        if (state.executando) {
+            return true
+        }
+        return false;    
     };
 
     const executarPlayer = () => {

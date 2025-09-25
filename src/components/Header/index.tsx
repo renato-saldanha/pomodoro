@@ -4,6 +4,7 @@ import CustomButton from '../CustomButton';
 import { useRouter } from 'next/router';
 
 type HeaderProps = {
+    props?: 1;
 }
 
 type Temas = 'claro' | 'escuro';
@@ -25,7 +26,9 @@ const Header : React.FC<HeaderProps> = () => {
 
     useEffect(()=> {
         const temaCarregado = localStorage.getItem('tema') as Temas;
-        temaCarregado ? setTema(temaCarregado) : null;
+        if (temaCarregado) {
+            setTema(temaCarregado)
+        }         
     }, [])
 
     useEffect(() => {

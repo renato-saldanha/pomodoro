@@ -1,9 +1,5 @@
-import React, { HTMLAttributes } from "react";
-import { toast, ToastContentProps, ToastOptions } from "react-toastify";
+import { toast } from "react-toastify";
 
-type NotificacaoProps = {
-    texto: string;
-}
 
 export const notificar = (texto: string) => {
     toast(texto, {

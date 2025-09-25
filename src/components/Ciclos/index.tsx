@@ -1,12 +1,12 @@
 import { useTaskContext } from '@/contexts/TaskContext/hooks';
 import { CicloModel } from '@/models/CicloModel';
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 type CiclosProps = {    
     ciclos: CicloModel[];
 };
 
-const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({ciclos, ...props}) => {
+const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({ciclos}) => {
     const taskContext = useTaskContext();
 
     const DescricaoCiclo : React.FC = () => {

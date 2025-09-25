@@ -1,5 +1,3 @@
-import React, { HTMLAttributes, TextareaHTMLAttributes } from 'react';
-
 type HeadingProps = {
     children: React.ReactNode;
 }

@@ -2,7 +2,7 @@ import  Link  from 'next/link';
 import React from 'react';
 
 type FooterProps = {
-
+    props?: 1;
 }
 
 const Footer : React.FC<FooterProps> = () => {
