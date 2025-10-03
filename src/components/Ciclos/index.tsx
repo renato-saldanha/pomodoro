@@ -1,33 +1,40 @@
 import { useTaskContext } from '@/contexts/TaskContext/hooks';
-import { CicloModel } from '@/models/CicloModel';
+import { getTipoCiclo } from '@/models/CicloModel';
 import React, { InputHTMLAttributes } from 'react';
 
-type CiclosProps = {    
-    ciclos: CicloModel[];
+type CiclosProps = { 
+    texto?: 'oi';
 };
 
-const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({ciclos}) => {
-    const taskContext = useTaskContext();
+const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({}) => {
+    const { state } = useTaskContext();
+    const ciclos = state.ciclos;
 
     const DescricaoCiclo : React.FC = () => {
-        const ordemCiclo = taskContext.state.ordemAtual;
-        const tempoTrabalho = taskContext.state.config.tempoTrabalho;
-        const tempoDescanso = taskContext.state.cicloAtual === 5 && taskContext.state.ordemAtual === 2 ? taskContext.state.config.tempoDescansoLongo : taskContext.state.config.tempoDescansoCurto;
+        const tempoTrabalho = state.config.tempoTrabalho;
+        const tempoDescanso = state.config.tempoDescansoCurto;
+        const tempoDescansoLongo = state.config.tempoDescansoLongo;
 
         let textoTipo;
         let tempoTipo;
-        switch (ordemCiclo) {
-            case 1:
-                textoTipo = 'Trabalhe';
-                tempoTipo = tempoTrabalho;
-                break;        
-            default:
+
+        const tipoTask = getTipoCiclo(state);
+        switch (tipoTask) {
+            case 'tempoTrabalho':
+                textoTipo = 'Estude';
+                tempoTipo = tempoTrabalho;                
+                break;
+            case 'tempoDescansoCurto':
                 textoTipo = 'Descanse';
                 tempoTipo = tempoDescanso;
                 break;
+            default:
+                textoTipo = 'Descanse';
+                tempoTipo = tempoDescansoLongo;
+                break;
         }
 
-        return taskContext.state.executando ? <p>Nesse ciclo {textoTipo} por {tempoTipo} minutos</p> : <p className='text-transparent'> dsa  </p>
+        return state.executando ? <p>Nesse ciclo {textoTipo} por {tempoTipo} minutos</p> : <p className='text-transparent'> & </p>
     }
 
     return (
@@ -38,14 +45,15 @@ const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = 
             <p>Ciclos:</p>
             <div className='flex items-center justify-center'>
                 {ciclos && ciclos.length > 0 && (
-                     ciclos.map((ciclo) => (
+                    ciclos.map((ciclo) => (
                         <div key={ciclo.numeroCiclo} className="flex flex-row items-center">                            
                             {ciclo.trabalho && (
-                                <div className="text-primario text-xl">●</div>
+                                <div className="text-aviso text-xl">●</div>
                             )}
                             {ciclo.descanso && (
-                                <div className={`text-xl ${ciclo.numeroCiclo == 4 ? 'text-play' : 'text-aviso'}`}>●</div>
-                            )}
+                                <div className={`text-xl ${ciclo.numeroCiclo == 4 ? 'text-play' : 'text-primario'}`}>●</div>
+                            ) }
+                            
                             {!ciclo.descanso && !ciclo.trabalho && (
                                 <div className={`text-xl text-transparent`}>●</div>
                             )}

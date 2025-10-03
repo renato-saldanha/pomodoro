@@ -5,7 +5,7 @@ export type TaskStateModel = {
     tasks: TaskModel[];
     segundosRestantes: number;
     segundosRestantesFormatado: string;
-    taskAtivo: TaskModel | null;
+    taskAtiva: TaskModel | null;
     cicloAtual: number;
     ordemAtual: number;
     ciclos: CicloModel[];

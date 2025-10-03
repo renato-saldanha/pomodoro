@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 import { TaskStateModel } from "@/models/TaskStateModel";
+import { TaskActionModel } from "./taskActions";
 
 export const ciclosIniciais =  [
         { numeroCiclo: 1, trabalho: false, descanso: false, },
@@ -13,9 +14,9 @@ export const estadoInicial: TaskStateModel = {
     tasks: [],
     segundosRestantes: 0,
     segundosRestantesFormatado: '00:00',
-    taskAtivo: null,
+    taskAtiva: null,
     cicloAtual: 1,
-    ordemAtual: 0,
+    ordemAtual: 1,
     executando: false,
     ciclos: ciclosIniciais,
     config: {
@@ -27,12 +28,12 @@ export const estadoInicial: TaskStateModel = {
 
 type TaskContextProps = {
     state: TaskStateModel;
-    setState: React.Dispatch<React.SetStateAction<TaskStateModel>>;
+    dispatch: React.Dispatch<TaskActionModel>;
 }
 
 const estadoInicialContext = {
     state: estadoInicial,
-    setState: () => {},   
+    dispatch: () => {},   
 }
 
 export const TaskContext = createContext<TaskContextProps>(estadoInicialContext);

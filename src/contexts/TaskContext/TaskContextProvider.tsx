@@ -1,5 +1,6 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { estadoInicial, TaskContext } from "./TaskContext";
+import { taskReducer } from "./taskReducer";
 
 type TaskContextProviderProps = {
     children: React.ReactNode;
@@ -8,36 +9,11 @@ type TaskContextProviderProps = {
 
 
 export const TaskContextProvider: React.FC<TaskContextProviderProps> = ({children}) =>  {
-    const [state, setState] = useState(estadoInicial);
+    const [state, dispatch] = useReducer(taskReducer, estadoInicial);
 
-    type ActionType = {
-        type: string;
-        payload? : number;
-    }
-
-    const [meuState, dispatch] = useReducer(
-        (state, action : ActionType) => {
-            switch (action.type) {
-                case 'INCREMENT':
-                    if (!action.payload) return state;
-                    return {
-                        ...state, segundosRestantes: state.segundosRestantes + action.payload, 
-                    }
-            }
-
-            return state;
-        },
-        {
-            segundosRestantes: 0,
-        }
-
-    )
-  
     return (
-        <TaskContext.Provider value={{state, setState}}>
+        <TaskContext.Provider value={{state, dispatch}}>
             {children}
-            <h1>{meuState.segundosRestantes}</h1>
-            <button onClick={() => dispatch({type: 'INCREMENT', payload: 1})}>Incrementar</button>
         </TaskContext.Provider>
     )
 }

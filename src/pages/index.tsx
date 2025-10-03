@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { ToastContainer } from 'react-toastify';
 
 
@@ -10,34 +10,23 @@ import CustomButton from "@/components/CustomButton";
 import Ciclos from "@/components/Ciclos";
 import { useTaskContext } from "@/contexts/TaskContext/hooks";
 import { erro } from "@/components/Notificacao";
-import { retornarDataDescansoLongo, TaskModel } from "@/models/TaskModel";
-import { getProximoTipoCiclo } from "@/models/CicloModel";
-import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto.";
+import { TaskModel } from "@/models/TaskModel";
+import { getDuracaoCiclo, getProximaDuracaoCiclo, getTipoCiclo } from "@/models/CicloModel";
+import { TaskActionTypes } from "@/contexts/TaskContext/taskActions";
 
 type HomeProps = {
     texto: 'oi';
 };
 
 const Home: React.FC<HomeProps> = () => {
-    const {state, setState} = useTaskContext();
+    const {state, dispatch} = useTaskContext();
     const nomeTaskRef = useRef<HTMLInputElement>(null);
     // const buttonPlayStopRef = useRef<HTMLButtonElement>(null);
 
-    const pararExecucao = () => {
-        setState(prev =>({
-            ...prev, 
-            executando : false,
-            segundosRestantes: 0,
-            segundosRestantesFormatado: '00:00',
-            tasks: prev.tasks.map(t => (
-                prev.taskAtivo && t.id === prev.taskAtivo.id  
-                    ? {...t, 
-                        dataInterrupcao : Date.now(),
-                        dataFim: retornarDataDescansoLongo(state),
-                    } : t
-            ))  
-        }))
-    };
+    useEffect(() => {
+        console.log('Estado: ', state);
+        console.log('Task Ativa: ', state.taskAtiva);
+    }, [state.taskAtiva]);
     
     const executandoPlayer = () => {
         if (state.executando) {
@@ -46,36 +35,10 @@ const Home: React.FC<HomeProps> = () => {
         return false;    
     };
 
-    const executarPlayer = () => {
-        setState(prev =>({...prev, executando : true}))
-    }
-
-    const handleCicloTrabalho = (numeroCiclo: number) => {
-        setState(prev => ({
-            ...prev,
-            ciclos: prev.ciclos!.map(c =>
-                c.numeroCiclo === numeroCiclo
-                    ? { ...c, trabalho: true }
-                    : c
-            )
-        }));
-    };
-
-    const handleCicloDescanso = (numeroCiclo: number) => {
-        setState(prev => ({
-            ...prev,
-            ciclos: prev.ciclos!.map(c =>
-                c.numeroCiclo === numeroCiclo
-                    ? { ...c, descanso: true }
-                    : c
-            )
-        }));
-    };
-
     const handlePlayStopClick = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        if (!executandoPlayer) {
+        if (!executandoPlayer()) {
             if (!nomeTaskRef) return;
 
             const nomeTask = nomeTaskRef.current?.value.trim();
@@ -88,66 +51,17 @@ const Home: React.FC<HomeProps> = () => {
             const novaTask : TaskModel = {
                 id: Date.now().toString(),
                 nome: nomeTask,
-                duracao: state.config[getProximoTipoCiclo(state)],
+                duracao: getDuracaoCiclo(state),
                 dataInicio: Date.now(),
                 dataFim: null,
                 dataInterrupcao: null,
-                tipo: getProximoTipoCiclo(state),
-            };
+                tipo: getTipoCiclo(state),
+            };            
 
-            const segundosRestantes = novaTask.duracao * 60;
-
-            setState(prev => {
-                return {
-                    ...prev,
-                    taskAtivo: novaTask,
-                    segundosRestantes,
-                    segundosRestantesFormatado: formatarSegundosParaTempo(segundosRestantes),
-                    tasks:[...prev.tasks, novaTask],
-                    config: {...prev.config}
-                }            
-            });
-            iniciarExecucao();
+            dispatch({type: TaskActionTypes.INICIAR_TASK, payload: novaTask});
         } else {
-            pararExecucao();
+            dispatch({type: TaskActionTypes.PARAR_TASK, payload: state.taskAtiva!});
         }
-    }
-
-    const resetarCiclo = () => {
-        setState(prev => ({
-            ...prev,
-            ciclos: prev.ciclos!.map(c => (
-                c.numeroCiclo === 1
-                    ? { ...c, trabalho: true, descanso: false }
-                    : { ...c, trabalho: false, descanso: false }
-            )),
-            ordemAtual: 2,
-            cicloAtual: 1,
-            
-        }));
-    };
-
-    const gerirCiclos = () => {
-         if (state.ordemAtual === 1) {
-            handleCicloTrabalho(state.cicloAtual);
-            setState(prev => ({ ...prev, ordemAtual: 2 }));
-        } else if (state.cicloAtual == 4 && state.ordemAtual == 2) {
-            handleCicloDescanso(state.cicloAtual);
-            setState(prev => ({ ...prev, cicloAtual: prev.cicloAtual + 1 }));
-        } else {
-            handleCicloDescanso(state.cicloAtual);
-            setState(prev => ({ ...prev, ordemAtual: 1 }));
-            if (state.cicloAtual < 4) {
-                setState(prev => ({ ...prev, cicloAtual: prev.cicloAtual + 1 }));
-            } else if (state.cicloAtual >= 4 && state.ordemAtual >= 2) {
-                resetarCiclo();
-            }
-        }
-    }
-
-    const iniciarExecucao = () => {
-        executarPlayer();       
-        gerirCiclos();
     }
 
     return (
@@ -161,15 +75,15 @@ const Home: React.FC<HomeProps> = () => {
                 titulo="task"
                 placeholder="Estudar"
                 ref={nomeTaskRef}
-                disabled={state.taskAtivo? true : false}
+                disabled={state.taskAtiva? true : false}
             />            
-            <Ciclos ciclos={state.ciclos} />
+            <Ciclos />
             <div>
                 <CustomButton
                     id='PlayStop'
-                    className={`text-texto-padrao rounded-md border-0  p-2 px-17 ${!executandoPlayer ? 'bg-play hover:bg-play-hover' : 'bg-erro hover:bg-erro-hover'} 
+                    className={`text-texto-padrao rounded-md border-0  p-2 px-17 ${!executandoPlayer() ? 'bg-play hover:bg-play-hover' : 'bg-erro hover:bg-erro-hover'} 
                                 lg:p-3 lg:px-31 `}
-                    icone={!executandoPlayer ? <Play size={35} /> : <StopCircle size={35} />}
+                    icone={!executandoPlayer() ? <Play size={35} /> : <StopCircle size={35} />}
                     onClick={handlePlayStopClick}/>
             </div>
             <ToastContainer className="bg-gray-800 text-white rounded-md shadow-md"/>
