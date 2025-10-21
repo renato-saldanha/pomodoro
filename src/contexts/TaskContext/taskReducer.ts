@@ -106,6 +106,15 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
         }
         case TaskActionTypes.RESETAR_TASK:
             return handleResetarCiclo(state);
+        
+        case TaskActionTypes.ATUALIZAR_CONTADOR:
+            return {
+                ...state,
+                segundosRestantes: action.payload.segundosRestantes,
+                segundosRestantesFormatado: action.payload.segundosRestantesFormatado
+            };
 
+        default:
+            return state;
     }
 };
