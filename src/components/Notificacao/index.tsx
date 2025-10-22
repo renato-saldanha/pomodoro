@@ -1,15 +1,31 @@
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 
 export const notificar = (texto: string) => {
     toast(texto, {
-        className: 'bg-blue-500 text-white p-4 rounded-lg shadow-lg',
+        type: "success",
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
     });
 };
 
 export const erro = (texto: string) => {
     toast(texto, {
-        className: 'bg-blue-500 text-white p-4 rounded-lg shadow-lg'
+        type: "error",
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
     });
 };
 

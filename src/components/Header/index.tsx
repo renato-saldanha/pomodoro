@@ -37,7 +37,7 @@ const Header : React.FC<HeaderProps> = () => {
     }, [tema]);
     
     return(
-        <header className='flex flex-col items-center justify-items-start space-y-3 mt-3
+        <header className='flex flex-col items-center justify-items-start space-y-3 my-3
                            lg:mt-15 lg:space-y-10'>
             <ClockIcon size={50}/>
             

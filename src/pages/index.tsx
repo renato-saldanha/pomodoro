@@ -1,19 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { ToastContainer } from 'react-toastify';
-
 
 import { Play, StopCircle } from "lucide-react";
 
 import Contador from "@/components/Contador";
-import Task from "@/components/CustomInput";
+import TaskInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import Ciclos from "@/components/Ciclos";
 import { useTaskContext } from "@/contexts/TaskContext/hooks";
 import { erro } from "@/components/Notificacao";
 import { TaskModel } from "@/models/TaskModel";
-import { getDuracaoCiclo, getProximaDuracaoCiclo, getTipoCiclo } from "@/models/CicloModel";
+import { getDuracaoCiclo, getTipoCiclo } from "@/models/CicloModel";
 import { TaskActionTypes } from "@/contexts/TaskContext/taskActions";
-import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto";
 
 type HomeProps = {
     texto: 'oi';
@@ -25,8 +22,8 @@ const Home: React.FC<HomeProps> = () => {
     // const buttonPlayStopRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        console.log('Estado: ', state);
-        console.log('Task Ativa: ', state.taskAtiva);
+        // console.log('Estado: ', state);
+        // console.log('Task Ativa: ', state.taskAtiva);
     }, [state.taskAtiva]);
 
     const executandoPlayer = () => {
@@ -72,7 +69,7 @@ const Home: React.FC<HomeProps> = () => {
                          xl:space-y-10" >
             <Contador
                 valor={state.segundosRestantesFormatado} />
-            <Task
+            <TaskInput
                 id='task'
                 type="text"
                 titulo="task"
@@ -88,8 +85,7 @@ const Home: React.FC<HomeProps> = () => {
                                 lg:p-3 lg:px-31 `}
                     icone={!executandoPlayer() ? <Play size={35} /> : <StopCircle size={35} />}
                     onClick={handlePlayStopClick} />
-            </div>
-            <ToastContainer className="bg-gray-800 text-white rounded-md shadow-md" />
+            </div>            
         </div>
     )
 }

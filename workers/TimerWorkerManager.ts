@@ -1,8 +1,10 @@
+import { WORKER_COMANDO_INICIAR, WORKER_COMANDO_PARAR} from "@/utils/Const";
+
 let instance: TimerWorkerManager | null = null;
 
 export type WorkerMessage = 
-    | { command: 'start'; state: unknown }
-    | { command: 'stop' };
+    | { comando: typeof WORKER_COMANDO_INICIAR; state: unknown }
+    | { comando: typeof WORKER_COMANDO_PARAR };
 
 export class TimerWorkerManager {
     private worker: Worker | null = null;

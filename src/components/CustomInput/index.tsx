@@ -3,7 +3,7 @@ import React, { Ref } from 'react';
 
 type ContadorProps = {
     titulo: string;    
-    ref: Ref<HTMLInputElement>;
+    ref?: Ref<HTMLInputElement>;
 };
 
 const CustomInput  : React.FC<ContadorProps & React.InputHTMLAttributes<HTMLInputElement>> = ({titulo, ref, ...props}) => {
@@ -13,7 +13,7 @@ const CustomInput  : React.FC<ContadorProps & React.InputHTMLAttributes<HTMLInpu
             <label htmlFor={props.id}>{titulo || 'task'}:</label>
             <input 
                 ref={ref}        
-                className="text-center cursor-pointer hover:rounded-md border border-gray-900 hover:border hover:border-primario-claro p-1" 
+                className="text-center cursor-pointer hover:rounded-md border border-gray-900 hover:border hover:border-primario-claro p-1 border-b-play" 
                 {...props}/>
         </div>
     )
