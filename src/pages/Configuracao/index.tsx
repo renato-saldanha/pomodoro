@@ -6,18 +6,24 @@ import { Save } from 'lucide-react';
 import React, { use, useEffect } from 'react';
 
 const Inicio: React.FC = () => {
-    const [estadoFoco, setEstadoFoco] = React.useState(estadoInicial.config.tempoTrabalho || '');
-    const [estadoDescansoCurto, setEstadoDescansoCurto] = React.useState(estadoInicial.config.tempoDescansoCurto || '');
-    const [estadoDescansoLongo, setEstadoDescansoLongo] = React.useState(estadoInicial.config.tempoDescansoLongo || '');
+    const [estadoFoco, setEstadoFoco] = React.useState(estadoInicial.config.tempoTrabalho);
+    const [estadoDescansoCurto, setEstadoDescansoCurto] = React.useState(estadoInicial.config.tempoDescansoCurto);
+    const [estadoDescansoLongo, setEstadoDescansoLongo] = React.useState(estadoInicial.config.tempoDescansoLongo);
 
     useEffect(() => {
         const foco = Number(localStorage.getItem('tempoTrabalho'));
         const descansoCurto = Number(localStorage.getItem('tempoDescansoCurto'));
         const descansoLongo = Number(localStorage.getItem('tempoDescansoLongo'));
 
-        setEstadoFoco(foco);
-        setEstadoDescansoCurto(descansoCurto);
-        setEstadoDescansoLongo(descansoLongo);
+        if (foco > 0) {
+            setEstadoFoco(foco);
+        }
+        if (descansoCurto > 0) {
+            setEstadoDescansoCurto(descansoCurto);
+        }
+        if (descansoLongo > 0) {
+            setEstadoDescansoLongo(descansoLongo);
+        }
     }, []);
 
     const handleSalvarConfiguracoes = () => {
@@ -38,21 +44,21 @@ const Inicio: React.FC = () => {
                     titulo='Foco (minutos)'
                     type='text'
                     value={estadoFoco}
-                    onChange={(e) => setEstadoFoco(e.target.value)}
+                    onChange={(e) => setEstadoFoco(Number(e.target.value))}
                 />
                 <EditInput
                     id='descansoCurto'
                     titulo='Descanso Curto (minutos)'
                     type='text'
                     value={estadoDescansoCurto}
-                    onChange={(e) => setEstadoDescansoCurto(e.target.value)}
+                    onChange={(e) => setEstadoDescansoCurto(Number(e.target.value))}
                 />
                 <EditInput
                     id='descansoLongo'
                     titulo='Descanso Longo (minutos)'
                     type='text'
                     value={estadoDescansoLongo}
-                    onChange={(e) => setEstadoDescansoLongo(e.target.value)}
+                    onChange={(e) => setEstadoDescansoLongo(Number(e.target.value))}
                 />
                 <CustomButton
                     className={`text-texto-padrao rounded-md border-0  p-2 px-17 bg-play hover:bg-play-hover

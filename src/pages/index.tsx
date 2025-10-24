@@ -19,12 +19,7 @@ type HomeProps = {
 const Home: React.FC<HomeProps> = () => {
     const { state, dispatch } = useTaskContext();
     const nomeTaskRef = useRef<HTMLInputElement>(null);
-    // const buttonPlayStopRef = useRef<HTMLButtonElement>(null);
-
-    useEffect(() => {
-        // console.log('Estado: ', state);
-        // console.log('Task Ativa: ', state.taskAtiva);
-    }, [state.taskAtiva]);
+    const ultimaTask = state.tasks && state.tasks.length ? state.tasks[state.tasks.length - 1].nome : '';
 
     const executandoPlayer = () => {
         if (state.executando) {
@@ -47,7 +42,7 @@ const Home: React.FC<HomeProps> = () => {
             }
 
             const dataInicio = Date.now();
-            
+
             const novaTask: TaskModel = {
                 id: Date.now().toString(),
                 nome: nomeTask,
@@ -60,7 +55,7 @@ const Home: React.FC<HomeProps> = () => {
 
             dispatch({ type: TaskActionTypes.INICIAR_TASK, payload: novaTask });
         } else {
-            dispatch({ type: TaskActionTypes.PARAR_TASK });
+            dispatch({ type: TaskActionTypes.PARAR_TASK, payload: state.taskAtiva as TaskModel });
         }
     }
 
@@ -73,9 +68,10 @@ const Home: React.FC<HomeProps> = () => {
                 id='task'
                 type="text"
                 titulo="task"
-                placeholder="Estudar"
+                placeholder="Nome da tarefa"
                 ref={nomeTaskRef}
                 disabled={state.taskAtiva ? true : false}
+                defaultValue={ultimaTask}
             />
             <Ciclos />
             <div>
@@ -85,7 +81,7 @@ const Home: React.FC<HomeProps> = () => {
                                 lg:p-3 lg:px-31 `}
                     icone={!executandoPlayer() ? <Play size={35} /> : <StopCircle size={35} />}
                     onClick={handlePlayStopClick} />
-            </div>            
+            </div>
         </div>
     )
 }

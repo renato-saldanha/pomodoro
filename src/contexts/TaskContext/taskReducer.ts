@@ -3,6 +3,7 @@ import { TaskActionModel, TaskActionTypes } from "./taskActions";
 import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto";
 import { retornarDataDescansoLongo, TaskModel } from "@/models/TaskModel";
 import { getProximaDuracaoCiclo, getProximaOrdemCiclo, getTipoCiclo, setProximoCicloSeDescanso } from "@/models/CicloModel";
+import { estadoInicial } from "./TaskContext";
 
 const handleCicloTrabalho = (state: TaskStateModel, task: TaskModel, segundosRestantes: number): TaskStateModel => {
     return {
@@ -24,7 +25,7 @@ const handleCicloTrabalho = (state: TaskStateModel, task: TaskModel, segundosRes
 
 const handleCicloDescanso = (state: TaskStateModel, task: TaskModel, segundosRestantes: number): TaskStateModel => {
     return {
-        ...state,            
+        ...state,
         ciclos: state.ciclos.map(c =>
             c.numeroCiclo === state.cicloAtual
                 ? { ...c, descanso: true }
@@ -41,15 +42,8 @@ const handleCicloDescanso = (state: TaskStateModel, task: TaskModel, segundosRes
 
 const handleResetarCiclo = (state: TaskStateModel) => {
     return {
-        ...state,
-        executando: false,
-        ciclos: state.ciclos.map(c => (
-            c.numeroCiclo === 1
-                ? { ...c, trabalho: true, descanso: false }
-                : { ...c, trabalho: false, descanso: false }
-        )),
-        ordemAtual: 2,
-        cicloAtual: 1,
+        ...estadoInicial,
+        reiniciado: true,
     };
 };
 
@@ -60,7 +54,8 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
 
             const segundosRestantes = task.duracao * 60;
 
-            let novoEstado: TaskStateModel;
+            let novoEstado: TaskStateModel; 
+
             const tipoTask = getTipoCiclo(state);
 
             switch (tipoTask) {
@@ -85,6 +80,10 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
             const duracaoTaks = getProximaDuracaoCiclo(state);
             const dataFim = retornarDataDescansoLongo(state);
 
+            if (state.cicloAtual >= 4 && state.ordemAtual >= 2) {
+                return handleResetarCiclo(state);                
+            }
+
             return {
                 ...state,
                 taskAtiva: null,
@@ -104,16 +103,21 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
                 ))
             };
         }
-        case TaskActionTypes.RESETAR_TASK:
+        case TaskActionTypes.RESETAR_TASK: {
             return handleResetarCiclo(state);
-        
-        case TaskActionTypes.ATUALIZAR_CONTADOR:
+        }
+        case TaskActionTypes.ATUALIZAR_CONTADOR: {
             return {
                 ...state,
                 segundosRestantes: action.payload.segundosRestantes,
                 segundosRestantesFormatado: action.payload.segundosRestantesFormatado
             };
-
+        }  
+        case TaskActionTypes.RESTAURAR_TASK: {
+            return {
+                ...action.payload
+            };
+        }
         default:
             return state;
     }

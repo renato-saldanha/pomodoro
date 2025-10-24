@@ -10,6 +10,7 @@ export type TaskStateModel = {
     ordemAtual: number;
     ciclos: CicloModel[];
     executando: boolean;
+    reiniciado: boolean;
     config: {
         tempoTrabalho: number;
         tempoDescansoCurto: number;

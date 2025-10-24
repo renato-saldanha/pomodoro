@@ -1,12 +1,14 @@
 import { TaskModel } from "@/models/TaskModel";
+import { TaskStateModel } from "@/models/TaskStateModel";
 
 export enum TaskActionTypes {
     INICIAR_TASK = 'INICIAR_TASK',
     PARAR_TASK = 'PARAR_TASK',
     RESETAR_TASK = 'RESETAR_TASK',
     CONTADOR = 'CONTADOR',
-    COMLETAR_TASK = 'COMLETAR_TASK',
+    COMPLETAR_TASK = 'COMLETAR_TASK',
     ATUALIZAR_CONTADOR = 'ATUALIZAR_CONTADOR',
+    RESTAURAR_TASK = 'RESTAURAR_TASK',
 }
 
 export type TaskActionModel =
@@ -16,7 +18,7 @@ export type TaskActionModel =
     }
     | {
         type: TaskActionTypes.PARAR_TASK;
-        payload?: TaskModel;
+        payload: TaskModel;
     }
     | {
         type: TaskActionTypes.RESETAR_TASK;
@@ -26,9 +28,14 @@ export type TaskActionModel =
         payload: { segundosRestantes: number; };
     }
     | {
-        type: TaskActionTypes.COMLETAR_TASK;
+        type: TaskActionTypes.COMPLETAR_TASK;
     }
     | {
         type: TaskActionTypes.ATUALIZAR_CONTADOR;
         payload: { segundosRestantes: number; segundosRestantesFormatado: string; };
+    }
+    |
+    {
+        type: TaskActionTypes.RESTAURAR_TASK;
+        payload: TaskStateModel;
     };

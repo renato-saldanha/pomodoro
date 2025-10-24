@@ -19,10 +19,11 @@ export const estadoInicial: TaskStateModel = {
     ordemAtual: 1,
     executando: false,
     ciclos: ciclosIniciais,
+    reiniciado: false,
     config: {
-        tempoTrabalho: 1,
-        tempoDescansoCurto: 1,
-        tempoDescansoLongo: 1,
+        tempoTrabalho: 25,
+        tempoDescansoCurto: 5,
+        tempoDescansoLongo: 15,
     }
 }
 

@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <TaskContextProvider>
         <div className="min-h-screen flex flex-col text-primario text-center">
           <Header />
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full mb-2">
             <Component {...pageProps} />
           </main>
           <Footer />
