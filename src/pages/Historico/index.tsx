@@ -4,14 +4,11 @@ import Heading from "@/components/Heading";
 import { TaskModel } from "@/models/TaskModel";
 import MainTemplate from "@/templates/MainTemplate";
 import { ESTADO_APLICACAO } from "@/utils/Const";
+import { dataFormatada, tipoTask } from "@/utils/UteisFuncs";
 import { TrashIcon } from "lucide-react";
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 
-type HistoricoProps = {
-  texto: string | 'Nome'
-};
-
-const Historico: React.FC<HistoricoProps> = ({ texto }) => {
+const Historico: React.FC = () => {
   const [stateListaTasks, setStateListaTasks] = React.useState<TaskModel[]>([]);
 
   useEffect(() => {
@@ -42,7 +39,7 @@ const Historico: React.FC<HistoricoProps> = ({ texto }) => {
       <Container>
         {/* Mobile: Cards Layout */}
         <div className="block md:hidden space-y-4 mx-auto max-w-md px-4">
-          {stateListaTasks.map((item, key) => (
+          {stateListaTasks.map((item) => (
             <div key={item.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 shadow-sm ">
               <div className="flex justify-between items-start mb-3">
                 <div>
@@ -54,7 +51,7 @@ const Historico: React.FC<HistoricoProps> = ({ texto }) => {
               <div className="space-y-2 text-sm ">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Data:</span>
-                  <span className="text-primario">{item.dataInicio}</span>
+                  <span className="text-primario">{item.dataInicio.toLocaleString('pt-BR')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Status:</span>
@@ -74,19 +71,19 @@ const Historico: React.FC<HistoricoProps> = ({ texto }) => {
           <table className="mx-auto max-w-md text-center bg-gray-800 border border-gray-700 rounded-lg shadow-sm">
             <thead className="bg-gray-700">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
                   Tarefa
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
                   Duração
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
                   Data
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
                   Tipo
                 </th>
               </tr>
@@ -101,13 +98,13 @@ const Historico: React.FC<HistoricoProps> = ({ texto }) => {
                     {item.duracao}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-primario border-b border-gray-700">
-                    {item.dataInicio.toLocaleString()}
+                    {dataFormatada(item.dataInicio)}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-primario border-b border-gray-700">
                     {item.dataInterrupcao ? 'Interrompida' : item.dataFim ? 'Concluída' : 'Em Andamento'}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-primario border-b border-gray-700">
-                    {item.tipo}
+                    {tipoTask(item.tipo)}
                   </td>
                 </tr>
               ))}

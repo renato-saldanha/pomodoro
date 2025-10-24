@@ -21,7 +21,7 @@ export const estadoInicial: TaskStateModel = {
     ciclos: ciclosIniciais,
     reiniciado: false,
     config: {
-        tempoTrabalho: 25,
+        tempoFoco: 25,
         tempoDescansoCurto: 5,
         tempoDescansoLongo: 15,
     }

@@ -8,7 +8,7 @@ export type CicloModel = {
 };
 
 export const getTipoCiclo = (state: TaskStateModel): TaskModel['tipo'] => {
-    if (state.ordemAtual % 2 === 1) return 'tempoTrabalho';    
+    if (state.ordemAtual % 2 === 1) return 'tempoFoco';    
     if (state.cicloAtual % 4 === 0 && state.ordemAtual % 2 === 0) return 'tempoDescansoLongo';    
     return 'tempoDescansoCurto';
 };
@@ -16,8 +16,8 @@ export const getTipoCiclo = (state: TaskStateModel): TaskModel['tipo'] => {
 export const getDuracaoCiclo= (state: TaskStateModel): number => {
     const tipoTask = getTipoCiclo(state);
     switch (tipoTask) {
-        case 'tempoTrabalho':
-            return state.config.tempoTrabalho;
+        case 'tempoFoco':
+            return state.config.tempoFoco;
         case 'tempoDescansoCurto':
             return state.config.tempoDescansoCurto
         default:
@@ -26,7 +26,7 @@ export const getDuracaoCiclo= (state: TaskStateModel): number => {
 };
 
 export const getProximaDuracaoCiclo= (state: TaskStateModel): number => {
-   if (state.cicloAtual > 0 && state.ordemAtual > 0 && state.cicloAtual % 4 === 0 && state.ordemAtual % 2 === 0) return state.config.tempoTrabalho;
+   if (state.cicloAtual > 0 && state.ordemAtual > 0 && state.cicloAtual % 4 === 0 && state.ordemAtual % 2 === 0) return state.config.tempoFoco;
    if ((state.cicloAtual % 2 === 0 || state.cicloAtual % 3 === 0) || state.ordemAtual % 2 === 1) return state.config.tempoDescansoCurto;
    return state.config.tempoDescansoLongo;
 };
@@ -36,7 +36,7 @@ export const getProximaOrdemCiclo= (state: TaskStateModel): number => {
 };
 
 export const setProximoCicloSeDescanso = (state: TaskStateModel): number => {
-    if (getTipoCiclo(state) !== 'tempoTrabalho') {
+    if (getTipoCiclo(state) !== 'tempoFoco') {
         return state.cicloAtual + 1;
     }
     return state.cicloAtual

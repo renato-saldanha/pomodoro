@@ -12,7 +12,7 @@ export type TaskStateModel = {
     executando: boolean;
     reiniciado: boolean;
     config: {
-        tempoTrabalho: number;
+        tempoFoco: number;
         tempoDescansoCurto: number;
         tempoDescansoLongo: number;
     }

@@ -7,7 +7,7 @@ import { TaskActionTypes } from "./taskActions";
 
 import { ESTADO_APLICACAO, WORKER_COMANDO_INICIAR, WORKER_COMANDO_PARAR, WORKER_STATUS_COMPLETO, WORKER_STATUS_EXECUTANDO } from "@/utils/Const";
 import { carregarBeep } from "@/utils/Beep";
-import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto";
+import { formatarSegundosParaTempo } from "@/utils/UteisFuncs";
 import { TaskStateModel } from "@/models/TaskStateModel";
 import { TaskModel } from "@/models/TaskModel";
 
@@ -69,7 +69,7 @@ export const TaskContextProvider: React.FC<TaskContextProviderProps> = ({ childr
                 workerRef.current.terminate();
             }
         };
-    }, []);
+    }, [state.taskAtiva]);
 
     useEffect(() => {
         localStorage.setItem(ESTADO_APLICACAO, JSON.stringify(state));

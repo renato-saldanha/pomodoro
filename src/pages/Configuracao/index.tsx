@@ -3,15 +3,15 @@ import EditInput from '@/components/CustomInput';
 import { notificar } from '@/components/Notificacao';
 import { estadoInicial } from '@/contexts/TaskContext/TaskContext';
 import { Save } from 'lucide-react';
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const Inicio: React.FC = () => {
-    const [estadoFoco, setEstadoFoco] = React.useState(estadoInicial.config.tempoTrabalho);
+    const [estadoFoco, setEstadoFoco] = React.useState(estadoInicial.config.tempoFoco);
     const [estadoDescansoCurto, setEstadoDescansoCurto] = React.useState(estadoInicial.config.tempoDescansoCurto);
     const [estadoDescansoLongo, setEstadoDescansoLongo] = React.useState(estadoInicial.config.tempoDescansoLongo);
 
     useEffect(() => {
-        const foco = Number(localStorage.getItem('tempoTrabalho'));
+        const foco = Number(localStorage.getItem('tempoFoco'));
         const descansoCurto = Number(localStorage.getItem('tempoDescansoCurto'));
         const descansoLongo = Number(localStorage.getItem('tempoDescansoLongo'));
 
@@ -27,7 +27,7 @@ const Inicio: React.FC = () => {
     }, []);
 
     const handleSalvarConfiguracoes = () => {
-        localStorage.setItem('tempoTrabalho', estadoFoco.toString());
+        localStorage.setItem('tempoFoco', estadoFoco.toString());
         localStorage.setItem('tempoDescansoCurto', estadoDescansoCurto.toString());
         localStorage.setItem('tempoDescansoLongo', estadoDescansoLongo.toString());
         notificar('Configurações salvas com sucesso!');

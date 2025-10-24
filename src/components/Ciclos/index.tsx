@@ -11,7 +11,7 @@ const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = 
     const ciclos = state.ciclos;
 
     const DescricaoCiclo : React.FC = () => {
-        const tempoTrabalho = state.config.tempoTrabalho;
+        const tempoFoco = state.config.tempoFoco;
         const tempoDescanso = state.config.tempoDescansoCurto;
         const tempoDescansoLongo = state.config.tempoDescansoLongo;
 
@@ -20,9 +20,9 @@ const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = 
 
         const tipoTask = getTipoCiclo(state);
         switch (tipoTask) {
-            case 'tempoTrabalho':
-                textoTipo = 'Estude';
-                tempoTipo = tempoTrabalho;                
+            case 'tempoFoco':
+                textoTipo = 'Foque';
+                tempoTipo = tempoFoco;                
                 break;
             case 'tempoDescansoCurto':
                 textoTipo = 'Descanse';

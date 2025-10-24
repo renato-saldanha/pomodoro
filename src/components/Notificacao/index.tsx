@@ -1,4 +1,4 @@
-import { Bounce, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 export const notificar = (texto: string) => {

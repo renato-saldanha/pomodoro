@@ -1,6 +1,6 @@
 import { TaskStateModel } from "@/models/TaskStateModel";
 import { TaskActionModel, TaskActionTypes } from "./taskActions";
-import { formatarSegundosParaTempo } from "@/utils/formatarSegundoParaMinuto";
+import { formatarSegundosParaTempo } from "@/utils/UteisFuncs";
 import { retornarDataDescansoLongo, TaskModel } from "@/models/TaskModel";
 import { getProximaDuracaoCiclo, getProximaOrdemCiclo, getTipoCiclo, setProximoCicloSeDescanso } from "@/models/CicloModel";
 import { estadoInicial } from "./TaskContext";
@@ -40,7 +40,7 @@ const handleCicloDescanso = (state: TaskStateModel, task: TaskModel, segundosRes
     };
 };
 
-const handleResetarCiclo = (state: TaskStateModel) => {
+const handleResetarCiclo = () => {
     return {
         ...estadoInicial,
         reiniciado: true,
@@ -59,7 +59,7 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
             const tipoTask = getTipoCiclo(state);
 
             switch (tipoTask) {
-                case 'tempoTrabalho':
+                case 'tempoFoco':
                     novoEstado = handleCicloTrabalho(state, task, segundosRestantes);
                     break;
                 case 'tempoDescansoCurto':
@@ -69,7 +69,7 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
                     novoEstado = handleCicloDescanso(state, task, segundosRestantes);
                     break;
                 default:
-                    novoEstado = handleResetarCiclo(state);
+                    novoEstado = handleResetarCiclo();
             }
 
             return novoEstado;
@@ -81,7 +81,7 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
             const dataFim = retornarDataDescansoLongo(state);
 
             if (state.cicloAtual >= 4 && state.ordemAtual >= 2) {
-                return handleResetarCiclo(state);                
+                return handleResetarCiclo();                
             }
 
             return {
@@ -104,7 +104,7 @@ export const taskReducer = (state: TaskStateModel, action: TaskActionModel): Tas
             };
         }
         case TaskActionTypes.RESETAR_TASK: {
-            return handleResetarCiclo(state);
+            return handleResetarCiclo();
         }
         case TaskActionTypes.ATUALIZAR_CONTADOR: {
             return {
