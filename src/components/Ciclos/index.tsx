@@ -1,16 +1,17 @@
 import { useTaskContext } from '@/contexts/TaskContext/hooks';
 import { getTipoCiclo } from '@/models/CicloModel';
+import { Activity } from 'lucide-react';
 import React, { InputHTMLAttributes } from 'react';
 
-type CiclosProps = { 
+type CiclosProps = {
     texto?: 'oi';
 };
 
-const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({}) => {
+const Ciclos: React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = ({ }) => {
     const { state } = useTaskContext();
     const ciclos = state.ciclos;
 
-    const DescricaoCiclo : React.FC = () => {
+    const DescricaoCiclo: React.FC = () => {
         const tempoFoco = state.config.tempoFoco;
         const tempoDescanso = state.config.tempoDescansoCurto;
         const tempoDescansoLongo = state.config.tempoDescansoLongo;
@@ -22,7 +23,7 @@ const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = 
         switch (tipoTask) {
             case 'tempoFoco':
                 textoTipo = 'Foque';
-                tempoTipo = tempoFoco;                
+                tempoTipo = tempoFoco;
                 break;
             case 'tempoDescansoCurto':
                 textoTipo = 'Descanse';
@@ -44,25 +45,25 @@ const Ciclos  : React.FC<CiclosProps & InputHTMLAttributes<HTMLInputElement>> = 
             </div>
             <p>Ciclos:</p>
             <div className='flex items-center justify-center'>
-                {ciclos && ciclos.length > 0 && (
-                    ciclos.map((ciclo) => (
-                        <div key={ciclo.numeroCiclo} className="flex flex-row items-center">                            
+                <Activity mode={ciclos && ciclos.length > 0 ? 'visible' : 'hidden'}>
+                    {ciclos.map((ciclo) => (
+                        <div key={ciclo.numeroCiclo} className="flex flex-row items-center">
                             {ciclo.trabalho && (
                                 <div className="text-aviso text-xl">●</div>
                             )}
                             {ciclo.descanso && (
                                 <div className={`text-xl ${ciclo.numeroCiclo == 4 ? 'text-play' : 'text-primario'}`}>●</div>
-                            ) }
-                            
+                            )}
+
                             {!ciclo.descanso && !ciclo.trabalho && (
                                 <div className={`text-xl text-transparent`}>●</div>
                             )}
                         </div>
-                    ))
-                )}
+                    ))}
+                </Activity>
             </div>
         </div>
-        
+
     )
 }
 
